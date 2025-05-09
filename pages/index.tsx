@@ -16,7 +16,7 @@ export default function IndexPage() {
         router.push("/dashboard");
       } else {
         // Jika belum login, arahkan ke login
-        router.push("/dashboard");
+        router.push("/login");
       }
     });
 

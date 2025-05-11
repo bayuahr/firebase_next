@@ -5,10 +5,10 @@ import Header from "./Header";  // Import Header
 export default function Layout({ children }: { children: ReactNode }) {
     return (
       <div className="flex flex-col h-screen">
-        <Header /> {/* Menambahkan Header di sini */}
+        <Header /> 
         <div className="flex flex-1">
           <Sidebar />
-          <main className="flex-1 p-6 bg-gray-100 min-h-screen"> {/* Ganti min-h-screen agar area konten juga memenuhi layar */}
+          <main className="flex-1 p-6 bg-gray-100 min-h-screen max-w-screen-xl mx-auto">
             {children}
           </main>
         </div>

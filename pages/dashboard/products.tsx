@@ -45,6 +45,8 @@ export default function MasterProductsPage() {
   const [pending, setPending] = useState(true);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
+  const [searchText, setSearchText] = useState("");
+
   const router = useRouter();
 
   // Fetch data dari Firestore
@@ -196,10 +198,10 @@ export default function MasterProductsPage() {
     const worksheet = XLSX.utils.json_to_sheet(exportData);
 
     // Estimasi lebar kolom berdasarkan panjang konten maksimal di setiap kolom
-    const columnWidths = Object.keys(exportData[0] || {}).map((key:any) => {
+    const columnWidths = Object.keys(exportData[0] || {}).map((key: any) => {
       const maxLength = Math.max(
         key.length,
-        ...exportData.map((row:any) => String(row[key] || "").length)
+        ...exportData.map((row: any) => String(row[key] || "").length)
       );
       return { wch: maxLength + 2 }; // +2 padding
     });
@@ -212,7 +214,7 @@ export default function MasterProductsPage() {
     }
 
     // Styling header (opsional)
-    worksheet["!rows"].unshift({ hidden: false});
+    worksheet["!rows"].unshift({ hidden: false });
 
     // Membuat workbook dan menambahkan sheet
     const workbook = XLSX.utils.book_new();
@@ -238,41 +240,59 @@ export default function MasterProductsPage() {
     { name: "Priority", selector: (row) => row.priority, sortable: true, minWidth: '100px' },
   ];
 
+  const filteredData = data.filter((item) => {
+    const search = searchText.toLowerCase();
+    return (
+      item.name.toLowerCase().includes(search) || item.label.toLowerCase().includes(search)
+    );
+  });
+  
+
 
   return (
     <Layout>
       <div className="p-6">
         <h1 className="text-2xl font-semibold mb-6">Master Product Variants</h1>
 
-        <div className="mb-4 flex items-center">
-          <div>
+        <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+          <div className="mb-2 sm:mb-0">
             <label className="block text-sm font-medium mb-1 text-gray-700">
-              Import Excel File
+              Search
             </label>
+            <input
+              type="text"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              placeholder="Cari produk"
+              className="w-full sm:w-64 border-gray-300 rounded-md shadow-sm text-sm p-2"
+            />
+          </div>
+          <div className="flex gap-2 mt-2 sm:mt-0">
             <input
               type="file"
               accept=".xlsx"
               onChange={handleImportExcel}
-              className="block w-full text-sm text-gray-700 file:mr-4 file:py-1 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
+              className="block text-sm file:mr-4 file:py-1 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
             />
+            <button
+              onClick={handleExportToExcel}
+              className="bg-green-500 hover:bg-green-600 text-white text-sm px-4 py-2 rounded"
+            >
+              Export to Excel
+            </button>
+            <button
+              onClick={handleDeleteAll}
+              className="bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded"
+            >
+              Delete All
+            </button>
           </div>
-          <button
-            onClick={handleExportToExcel}
-            className="ml-4 mt-6 bg-green-500 hover:bg-green-600 text-white text-sm px-4 py-2 rounded"
-          >
-            Export to Excel
-          </button>
-          <button
-            onClick={handleDeleteAll}
-            className="ml-4 mt-6 bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded"
-          >
-            Delete All
-          </button>
         </div>
+
 
         <DataTable
           columns={columns}
-          data={data}
+          data={filteredData}
           progressPending={pending}
           pagination
           highlightOnHover

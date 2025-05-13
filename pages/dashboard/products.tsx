@@ -233,7 +233,7 @@ export default function MasterProductsPage() {
     { name: "ID", selector: (row) => row.id, sortable: true, minWidth: '80px' },
     { name: "SKU", selector: (row) => row.sku, sortable: true, minWidth: '300px' },
     { name: "Price", selector: (row) => `${row.price.toLocaleString("id-ID")}`, sortable: true, right: true, minWidth: '100px' },
-    { name: "Type", selector: (row) => row.type_limit, sortable: true, minWidth: '100px' },
+    { name: "Type", selector: (row) => row.type, sortable: true, minWidth: '100px' },
     { name: "Label", selector: (row) => row.label, sortable: true, minWidth: '200px', wrap: true },
     { name: "Limit", selector: (row) => `${row.amount_limit} ${row.unit_limit}`, sortable: true, minWidth: '120px' },
     { name: "Days", selector: (row) => row.days, sortable: true, minWidth: '80px' },

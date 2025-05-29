@@ -5,15 +5,16 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCb0JKm79s29J31zgqNEiaMeAHrUB_GRM4",
-  authDomain: "javaconnects-ab01d.firebaseapp.com",
-  databaseURL: "https://javaconnects-ab01d-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "javaconnects-ab01d",
-  storageBucket: "javaconnects-ab01d.firebasestorage.app",
-  messagingSenderId: "891462173038",
-  appId: "1:891462173038:web:14f26493feceab2d94017f",
-  measurementId: "G-4PFCVG50J6"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
+
 
 
 
